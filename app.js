@@ -8,7 +8,8 @@ const fs = require('fs');
 
 require('./database');
 
-var apiRouter = require('./routes/api');
+const apiRouter = require('./routes/api');
+const bucketRouter = require('./routes/bucket');
 
 var app = express();
 
@@ -32,7 +33,7 @@ AWS.config.update({
   region: 'us-east-2',
 });
 const s3 = new AWS.S3();
-
+/*
 app.post('/post_file', upload.single('demo_file'), (req, res) => {
   uploadFile(req.file.path, req.file.filename, res);
 })
@@ -58,15 +59,16 @@ app.get('/list', (req, res) => {
       res.send(e);
     })
 })
-
+*/
 app.use('/api', apiRouter);
+app.use('/bucket', bucketRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 module.exports = app;
-
+/*
 const uploadFile = (source, targetName, res) => {
   console.log('preparing to upload...');
   fs.readFile(source, (err, filedata) => {
@@ -110,3 +112,4 @@ const encode = (data) => {
   let base64 = buf.toString('base64');
   return base64;
 }
+*/
