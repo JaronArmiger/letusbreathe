@@ -1,3 +1,13 @@
+require('dotenv').config();
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_ACCESS_KEY,
+  region: 'us-east-2',
+});
+const s3 = new AWS.S3();
+
 const getImage = async (filename, res) => {
   const getParams = {
   	Bucket: process.env.AWS_BUCKET_NAME,
@@ -12,9 +22,15 @@ const getList = async (res) => {
   const getParams = {
   	Bucket: process.env.AWS_BUCKET_NAME,
   };
-
-  const data = s3.listObjects(getParams).promise();
-  return data;
+  
+  let keys = [];
+  const data = await s3.listObjects(getParams).promise();
+  data.Contents.forEach((el) => {
+    keys = keys.concat(el.Key);
+    console.log(el.Key);
+  });
+  console.log(keys);
+  return keys;
 }
 
 const uploadFile = (source, targetName, res) => {
