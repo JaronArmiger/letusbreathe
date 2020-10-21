@@ -3,7 +3,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const AWS = require('aws-sdk');
-const multer = require('multer');
+//const multer = require('multer');
 const fs = require('fs');
 
 require('./database');
@@ -13,13 +13,15 @@ const bucketRouter = require('./routes/bucket');
 
 var app = express();
 
+/*
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   }
 });
+*/
 
-const upload = multer({ storage });
+//const upload = multer({ storage });
 
 app.use(logger('dev'));
 app.use(express.json());

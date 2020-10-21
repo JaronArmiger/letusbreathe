@@ -1,5 +1,6 @@
 require('dotenv').config();
 const AWS = require('aws-sdk');
+const fs = require('fs');
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -33,7 +34,7 @@ const getList = async (res) => {
   return keys;
 }
 
-const uploadFile = (source, targetName, res) => {
+const postFile = (source, targetName, res) => {
   console.log('preparing to upload...');
   fs.readFile(source, (err, filedata) => {
     const putParams = {
@@ -61,6 +62,6 @@ const encode = (data) => {
 module.exports = {
   getImage,
   getList,
-  uploadFile,
+  postFile,
   encode,
 }

@@ -16,5 +16,5 @@ exports.list = async (req, res, next) => {
 }
 
 exports.post_file = (req, res, next) => {
-  res.send('post_file');
+  bucketUtils.postFile(req.file.path, req.file.filename, res);
 }
