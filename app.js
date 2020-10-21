@@ -27,14 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-/*
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_ACCESS_KEY,
-  region: 'us-east-2',
-});
-const s3 = new AWS.S3();
-*/
+
 /*
 app.post('/post_file', upload.single('demo_file'), (req, res) => {
   uploadFile(req.file.path, req.file.filename, res);
@@ -52,15 +45,6 @@ app.get('/get_file/:filename', (req, res) => {
     })
 });
 */
-app.get('/list', (req, res) => {
-  getList(res)
-    .then((list) => {
-      res.send(list);
-    })
-    .catch((e) => {
-      res.send(e);
-    })
-})
 
 app.use('/api', apiRouter);
 app.use('/bucket', bucketRouter);
@@ -100,14 +84,6 @@ const getImage = async (filename, res) => {
   return data;
 }
 */
-const getList = async (res) => {
-  const getParams = {
-  	Bucket: process.env.AWS_BUCKET_NAME,
-  };
-
-  const data = s3.listObjects(getParams).promise();
-  return data;
-}
 /*
 const encode = (data) => {
   let buf = Buffer.from(data);
