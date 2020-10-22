@@ -45,10 +45,10 @@ const postFile = (source, targetName, res) => {
     s3.putObject(putParams, (err, data) => {
       if (err) {
         console.log('Could not upload file: ', err);
-        return res.send({ err });
+        return (null);
       }
       console.log('success!');
-      return res.send({ success: true });
+      return('nice');
     })
   })
 }

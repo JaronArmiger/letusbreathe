@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const bucketUtils = require('../utils/bucket');
+
+//temp ------------------------
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_ACCESS_KEY,
+  region: 'us-east-2',
+});
+const s3 = new AWS.S3();
+//end temp ---------------------
+
 
 const storage = multer.diskStorage({
   filename: (req, file, cb) => {
@@ -15,5 +28,22 @@ router.get('/get_file/:filename', bucketController.get_file);
 router.get('/list', bucketController.list);
 router.post('/post_file', upload.single('file'),
   bucketController.post_file);
+
+
+router.post('/upload_mult', upload.array('photos', 12), 
+  async (req, res, next) => {
+  let uploadFilePromises = [];
+
+  req.files.forEach((file) => {
+  	uploadFilePromises
+  	  .push(bucketUtils.postFile(file.path, file.filename, res));
+  })
+  Promise.all(uploadFilePromises)
+    .then((results) => {
+      res.send({ success: true, results })
+    })
+    .catch((e) => res.send(e))
+})
+
 
 module.exports = router;
