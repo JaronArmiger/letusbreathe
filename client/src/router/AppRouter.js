@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Header from '../components/Header';
 import UploadForm from '../components/UploadForm';
 import Gallery from '../components/Gallery';
 
 const AppRouter = () => (
   <BrowserRouter>
     <div>
+      <Header />
       <div className='main-content'>
       	<Switch>
       	  <Route component={UploadForm} path='/' exact />
