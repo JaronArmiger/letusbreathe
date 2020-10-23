@@ -3,7 +3,7 @@ const bucketUtils = require('../utils/bucket');
 exports.get_file = (req, res, next) => {
   bucketUtils.getImage(req.params.filename, res)
     .then((img) => {
-      res.send(img);
+      res.send(img.Body.toString('utf-8'));
     })
     .catch((e) => {
       res.send(e);
