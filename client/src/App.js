@@ -20,7 +20,6 @@ class App extends Component {
     
     return (
       <div className="App">
-      <UploadForm/>
         {passwords.length ? (
           <div>
             <h1>5 Passwords</h1>
