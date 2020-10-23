@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { startLoadPhotos, getPhotoKeys } from '../actions/photos';
 import Photo from './Photo';
+import uniqid from 'uniqid';
 
 const Gallery = ({ errors, photos, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,10 @@ const Gallery = ({ errors, photos, dispatch }) => {
       { isLoading ? (
         <div className='loading-msg centered-message'>Loading...</div>
       ) : (
-        photos.map((photo) => <Photo key={photo._id} id={photo._id}/>)
+        photos.map((photo) => {
+          console.log(photo);
+          return <Photo key={uniqid()} url={photo}/>
+        })
       )}
     </div>
   );

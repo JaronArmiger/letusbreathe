@@ -25,6 +25,7 @@ const getList = async (res) => {
   };
   s3.listObjects(getParams, (err, data) => {
     if (err) return res.status(400).send({ success: false, err});
+    console.log(this);
     const keys = data.Contents.map((photo) => {
       return photo.Key;
     })
