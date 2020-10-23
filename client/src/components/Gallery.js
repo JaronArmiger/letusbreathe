@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { startLoadPhotos } from '../actions/photos';
+import { startLoadPhotos, getPhotoKeys } from '../actions/photos';
 import Photo from './Photo';
 
 const Gallery = ({ errors, photos, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [photoKeys, setPhotoKeys] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(startLoadPhotos());
+    dispatch(getPhotoKeys());
   }, []);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const Gallery = ({ errors, photos, dispatch }) => {
 
   return (
     <div className='photos-list'>
-      {errors && errors.get_error (
+      {errors && errors.get_error && (
         <p className='errorMsg centered-message'>{errors.get_error}</p>
       )}
       { isLoading ? (
@@ -29,4 +30,11 @@ const Gallery = ({ errors, photos, dispatch }) => {
       )}
     </div>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  photos: state.photos || [],
+  errors: state.errors || {},
+});
+
+export default connect(mapStateToProps)(Gallery);

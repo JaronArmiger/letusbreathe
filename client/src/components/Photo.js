@@ -6,9 +6,11 @@ const Photo = ({ id }) => {
     <Card className='photo'>
       <Card.Img
         variant='top'
-        src={}
+        src={'https://upload.wikimedia.org/wikipedia/commons/0/0c/Nigo_in_Thailand%2C_2006.jpg'}
         alt='Photo'
       />
     </Card>
   )
 }
+
+export default Photo;

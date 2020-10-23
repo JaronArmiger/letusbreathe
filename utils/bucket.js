@@ -23,15 +23,21 @@ const getList = async (res) => {
   const getParams = {
   	Bucket: process.env.AWS_BUCKET_NAME,
   };
-  
-  let keys = [];
-  const data = await s3.listObjects(getParams).promise();
-  data.Contents.forEach((el) => {
-    keys = keys.concat(el.Key);
-    console.log(el.Key);
+  s3.listObjects(getParams, (err, data) => {
+    if (err) return res.status(400).send({ success: false, err});
+    const keys = data.Contents.map((photo) => {
+      return photo.Key;
+    })
+    return res.send(keys);
   });
-  console.log(keys);
-  return keys;
+  /*
+  data.Contents.forEach((el) => {
+    objects = objects.concat(el);
+    //console.log(el.Key);
+  });
+  */
+  //console.log(keys);
+  //return objects;
 }
 
 const postFile = (source, targetName, res) => {

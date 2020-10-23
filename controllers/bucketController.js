@@ -3,7 +3,7 @@ const bucketUtils = require('../utils/bucket');
 exports.get_file = (req, res, next) => {
   bucketUtils.getImage(req.params.filename, res)
     .then((img) => {
-      res.send(img.Body.toString('utf-8'));
+      res.send(img.Body);
     })
     .catch((e) => {
       res.send(e);
@@ -11,8 +11,8 @@ exports.get_file = (req, res, next) => {
 }
 
 exports.list = async (req, res, next) => {
-  const keys = await bucketUtils.getList(res);
-  res.json({ keys });
+  bucketUtils.getList(res);
+  //res.send(data.Body);
 }
 
 exports.post_file = (req, res, next) => {
