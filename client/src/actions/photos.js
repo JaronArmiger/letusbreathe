@@ -6,7 +6,7 @@ export const beginAddPhoto = (photo) => {
     try {
       const formData = new FormData();
       formData.append('photo', photo);
-      await axios.post('/photos', formData, {
+      await axios.post('/bucket/post_file', formData, {
       	headers: {
       	  'Content-Type': 'multipart/form-data',
       	}

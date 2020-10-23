@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import UploadForm from '../components/UploadForm';
 
-const AppRouter = () => {
+const AppRouter = () => (
   <BrowserRouter>
     <div>
       <div className='main-content'>
@@ -12,4 +12,6 @@ const AppRouter = () => {
       </div>
     </div>
   </BrowserRouter>
-}
+);
+
+export default AppRouter;

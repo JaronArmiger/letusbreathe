@@ -18,10 +18,12 @@ const UploadForm = ({ errors, dispatch}) => {
 
   const handleOnChange = (e) => {
     const file = e.target.files[0];
+    console.log('change');
     setPhoto(file);
   };
 
   const handleFormSubmit = (e) => {
+    console.log('submit');
     e.preventDefault();
     if (photo) {
       setErrorMsg('');
@@ -47,16 +49,17 @@ const UploadForm = ({ errors, dispatch}) => {
         encType="multipart/form-data">
       	<Form.Group>
       	  <Form.Label>Choose photo</Form.Label>
-      	  <Form.Control type="file" name="file" onChange={handleOnChange}/>
+      	  <Form.Control type="file" name="photo" onChange={handleOnChange}/>
       	</Form.Group>
-      </Form>
-      <Button
-        variant="primary"
-        type="submit"
-        className={`${!photo ? 'disabled submit-btn' : 'submit-btn'}`}
-        disabled={photo ? false : true}>
-      	Upload
+        <Button
+          variant="primary"
+          type="submit"
+          className={`${!photo ? 'disabled submit-btn' : 'submit-btn'}`}
+          disabled={photo ? false : true}
+        >
+        Upload
       </Button>
+      </Form>
     </React.Fragment>
   );
 }

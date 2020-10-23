@@ -1,6 +1,6 @@
 import { createStore, 
   combineReducers, 
-  applyMiddleWare,
+  applyMiddleware,
   compose } from 'redux';
 import photosReducer from '../reducers/photos';
 import errorsReducer from '../reducers/errors';
@@ -13,7 +13,7 @@ const store = createStore(
     photos: photosReducer,
     errors: errorsReducer,
   }),
-  composeEnhancers(applyMiddleWare(thunk))
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 store.subscribe(() => {

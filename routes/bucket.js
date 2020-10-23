@@ -26,7 +26,7 @@ const bucketController = require('../controllers/bucketController');
 
 router.get('/get_file/:filename', bucketController.get_file);
 router.get('/list', bucketController.list);
-router.post('/post_file', upload.single('file'),
+router.post('/post_file', upload.single('photo'),
   bucketController.post_file);
 
 
