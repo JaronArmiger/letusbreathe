@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import UploadForm from './components/UploadForm';
 
 class App extends Component {
   state = { passwords: [] }
@@ -19,6 +20,7 @@ class App extends Component {
     
     return (
       <div className="App">
+      <UploadForm/>
         {passwords.length ? (
           <div>
             <h1>5 Passwords</h1>
