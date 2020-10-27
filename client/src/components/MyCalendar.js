@@ -20,7 +20,6 @@ const MyCalendar = ({ event, dispatch }) => {
   ];
 
   const onEventClick = (e) => {
-    console.log(e);
     dispatch(loadEvent(e));
     history.push('/event');
   }
