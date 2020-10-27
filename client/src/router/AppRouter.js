@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import UploadForm from '../components/UploadForm';
 import Gallery from '../components/Gallery';
 import MyCalendar from '../components/MyCalendar';
+//import RegCalendar from '../components/RegCalendar';
 
 const AppRouter = () => (
   <BrowserRouter>

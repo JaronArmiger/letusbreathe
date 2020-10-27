@@ -1,10 +1,13 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = (props) => {
+  let history = useHistory();
+
   const events = [
     {
       title: 'damn',
@@ -13,12 +16,18 @@ const MyCalendar = (props) => {
       allDay: false,
     }
   ];
+
+  const onEventClick = (e) => {
+  	history.push('/gallery');
+  }
+
   return (<Calendar 
       localizer={localizer}
       events={events}
       startAccessor='start'
       endAccessor='end'
       style={{ height: 500 }}
+      onSelectEvent={onEventClick}
     />);
 };
 
