@@ -1,12 +1,20 @@
 import axios from 'axios';
 import { getErrors } from './errors';
 
-export const beginAddPhoto = (photo) => {
+export const beginAddPhotos = (photos) => {
   return async (dispatch) => {
     try {
       const formData = new FormData();
-      formData.append('photo', photo);
-      await axios.post('/bucket/post_file', formData, {
+      console.log(formData);
+      for (const key of Object.keys(photos)) {
+        formData.append('photos', photos[key]);
+      }
+      /*
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ',' + pair[1]);
+      }
+      */
+      await axios.post('/bucket/upload_mult', formData, {
       	headers: {
       	  'Content-Type': 'multipart/form-data',
       	}

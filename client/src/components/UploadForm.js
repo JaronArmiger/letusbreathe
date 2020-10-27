@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import { beginAddPhoto } from '../actions/photos';
+import { beginAddPhotos } from '../actions/photos';
 
 const UploadForm = ({ errors, dispatch}) => {
-  const [photo, setPhoto] = useState(null);
+  const [photos, setPhotos] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -17,17 +17,15 @@ const UploadForm = ({ errors, dispatch}) => {
   }, []);
 
   const handleOnChange = (e) => {
-    const file = e.target.files[0];
-    console.log('change');
-    setPhoto(file);
+    const files = e.target.files;
+    setPhotos(files);
   };
 
   const handleFormSubmit = (e) => {
-    console.log('submit');
     e.preventDefault();
-    if (photo) {
+    if (photos.length > 0) {
       setErrorMsg('');
-      dispatch(beginAddPhoto(photo));
+      dispatch(beginAddPhotos(photos));
       setIsSubmitted(true);
     }
   };
@@ -49,13 +47,18 @@ const UploadForm = ({ errors, dispatch}) => {
         encType="multipart/form-data">
       	<Form.Group>
       	  <Form.Label>Choose photo</Form.Label>
-      	  <Form.Control type="file" name="photo" onChange={handleOnChange}/>
+      	  <Form.Control 
+            type="file" 
+            name="photos"
+            accept="image/jpeg image/jpg"
+            multiple
+            onChange={handleOnChange}/>
       	</Form.Group>
         <Button
           variant="primary"
           type="submit"
-          className={`${!photo ? 'disabled submit-btn' : 'submit-btn'}`}
-          disabled={photo ? false : true}
+          className={`${photos.length == 0 ? 'disabled submit-btn' : 'submit-btn'}`}
+          disabled={photos.length == 0 ? true : false}
         >
         Upload
       </Button>

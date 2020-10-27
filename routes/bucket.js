@@ -16,6 +16,12 @@ const s3 = new AWS.S3();
 
 
 const storage = multer.diskStorage({
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ 
   limits: {
     fileSize: 5000000,
   },
@@ -26,11 +32,8 @@ const storage = multer.diskStorage({
     }
     cb(null, true);
   },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  }
+  storage
 });
-const upload = multer({ storage });
 
 const bucketController = require('../controllers/bucketController');
 
@@ -43,7 +46,7 @@ router.post('/post_file', upload.single('photo'),
 router.post('/upload_mult', upload.array('photos', 12), 
   async (req, res, next) => {
   let uploadFilePromises = [];
-
+  console.log(req.files);
   req.files.forEach((file) => {
   	uploadFilePromises
   	  .push(bucketUtils.postFile(file.path, file.filename, res));
