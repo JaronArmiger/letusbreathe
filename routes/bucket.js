@@ -16,6 +16,16 @@ const s3 = new AWS.S3();
 
 
 const storage = multer.diskStorage({
+  limits: {
+    fileSize: 5000000,
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(jpeg|jpg)$/)) {
+      req.fileValidationError = 'must be jpeg or jpg';
+      return cb(null, false, new Error('must be jpeg or jpg'));
+    }
+    cb(null, true);
+  },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   }

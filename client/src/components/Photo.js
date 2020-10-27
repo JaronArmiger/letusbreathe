@@ -6,7 +6,7 @@ const Photo = ({ url }) => {
     <Card className='photo'>
       <Card.Img
         variant='top'
-        src={`https://letusbreathe.s3.us-east-2.amazonaws.com/${url}`}
+        src={`https://letusbreathe-prod.s3.us-east-2.amazonaws.com/${url}`}
         alt='Photo'
       />
     </Card>

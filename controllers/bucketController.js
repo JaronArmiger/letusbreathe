@@ -18,7 +18,10 @@ exports.list = async (req, res, next) => {
 }
 
 exports.post_file = (req, res, next) => {
-  console.log('post_file');
   bucketUtils.postFile(req.file.path, req.file.filename, res);
+  if (req.fileValidationError) {
+    console.log('wrong file type');
+    res.send({ err: 'wrong file type' });
+  }
   res.send({ success: true });
 }

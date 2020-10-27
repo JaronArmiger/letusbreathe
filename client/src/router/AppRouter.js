@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import UploadForm from '../components/UploadForm';
 import Gallery from '../components/Gallery';
 import MyCalendar from '../components/MyCalendar';
-//import RegCalendar from '../components/RegCalendar';
+import Event from '../components/Event';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -15,6 +15,7 @@ const AppRouter = () => (
       	  <Route component={UploadForm} path='/' exact />
       	  <Route component={Gallery} path='/gallery'/>
           <Route component={MyCalendar} path='/calendar'/>
+          <Route component={Event} path='/event'/>
       	</Switch>
       </div>
     </div>

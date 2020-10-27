@@ -18,7 +18,7 @@ const MyCalendar = (props) => {
   ];
 
   const onEventClick = (e) => {
-  	history.push('/gallery');
+  	history.push('/event');
   }
 
   return (<Calendar 
