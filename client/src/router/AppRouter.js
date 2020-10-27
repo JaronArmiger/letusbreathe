@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from '../components/Header';
 import UploadForm from '../components/UploadForm';
 import Gallery from '../components/Gallery';
+import MyCalendar from '../components/MyCalendar';
 
 const AppRouter = () => (
   <BrowserRouter>
@@ -12,6 +13,7 @@ const AppRouter = () => (
       	<Switch>
       	  <Route component={UploadForm} path='/' exact />
       	  <Route component={Gallery} path='/gallery'/>
+          <Route component={MyCalendar} path='/calendar'/>
       	</Switch>
       </div>
     </div>
