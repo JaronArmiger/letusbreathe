@@ -1,9 +1,9 @@
 const Event = require('../models/event');
-const validator = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 exports.event_list = async (req, res, next) => {
   try {
-    const events = await Event.find().sort('start', 'descending');
+    const events = await Event.find().sort('start');
     res.send(events);
   } catch (err) {
     res.status(500).send({ get_error: err.message });
@@ -11,20 +11,22 @@ exports.event_list = async (req, res, next) => {
 }
 
 exports.create_event = [
-  validator
-    .body('title', 'Event must have title')
+/*
+  body('title')
     .trim()
-    .isLength({ min: 1 }),
-  validator.sanitizeBody('title').escape(),
-  validator
-    .body('description', 'Event must have description')
+    .isLength({ min: 1 })
+    .withMessage('Event must have title')
+    .escape(),
+  body('description')
     .trim()
-    .isLength({ min: 1 }),
-  validator.sanitizeBody('description').escape(),
+    .isLength({ min: 1 }).withMessage('Event must have description')
+    .escape(),
+  */
   async (req, res, next) => {
-  	const errors = validator.validationResult(req);
+  	console.log(req.body);
+  	const errors = validationResult(req);
   	if (!errors.isEmpty()) {
-  	  return res.send({ errors });
+  	  return res.send(errors);
   	}
     const event = new Event({
       title: req.body.title,
