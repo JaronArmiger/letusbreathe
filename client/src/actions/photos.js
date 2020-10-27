@@ -62,4 +62,4 @@ export const startLoadPhotos = (photoKeys) => {
 export const loadPhotos = (photos) => ({
   type: 'LOAD_PHOTOS',
   photos
-})
+});

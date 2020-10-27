@@ -1,11 +1,13 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { loadEvent } from '../actions/event';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const localizer = momentLocalizer(moment);
 
-const MyCalendar = (props) => {
+const MyCalendar = ({ event, dispatch }) => {
   let history = useHistory();
 
   const events = [
@@ -18,7 +20,9 @@ const MyCalendar = (props) => {
   ];
 
   const onEventClick = (e) => {
-  	history.push('/event');
+    console.log(e);
+    dispatch(loadEvent(e));
+    history.push('/event');
   }
 
   return (<Calendar 
@@ -31,4 +35,8 @@ const MyCalendar = (props) => {
     />);
 };
 
-export default MyCalendar;
+const mapStateToProps = (state) => ({
+  event: state.event || null
+})
+
+export default connect(mapStateToProps)(MyCalendar);
