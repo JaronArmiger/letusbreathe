@@ -1,16 +1,46 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
+import axios from 'axios';
 
 const Event = ({ event }) => {
+  const handleDelete = (e) => {
+    console.log(event);
+
+  }
+  
+  let eventInfo;
+
+  if (event) {
+    const startDate = new Date(event.start);
+    const endDate = new Date(event.end);
+
+    eventInfo = (
+        <div>
+          <h1>Title: {event.title}</h1>
+          <p><b>Start Date: </b>{startDate.toLocaleDateString()}</p>
+          <p><b>Start Time: </b>{startDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</p>
+          <p><b>End Date: </b>{endDate.toLocaleDateString()}</p>
+          <p><b>End Time: </b>{endDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</p>
+          <p><b>Description: </b>{event.description}</p>
+          <Button
+            type='submit'
+            onClick={handleDelete}
+          >
+            Delete  
+          </Button>
+        </div>
+    );
+  } else {
+    eventInfo = (
+      <h1>no event found</h1>
+    );
+  }
 
   return (
     <div>
-      {event ? (
-        <h1>Title: {event.title}</h1>
-      ) : (
-        <h1>no event selected</h1>
-      )}
+      {eventInfo}
       <NavLink to='/calendar' className='link'>
         Back to Calendar
       </NavLink>

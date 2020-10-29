@@ -2,8 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import { getErrors } from '../actions/errors';
+import { useHistory } from 'react-router-dom';
 
 const EventForm = ({ errors, dispatch }) => {
+  let history = useHistory();
+
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
     axios.post('/events/create', {
@@ -12,9 +16,31 @@ const EventForm = ({ errors, dispatch }) => {
       start: e.target.start.value,
       end: e.target.end.value,
     })
+    .then((res) => {
+      if (errors = res.data.errors) {
+        dispatch(getErrors(errors))
+      } else {
+        history.push('/calendar');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
   return (
+    <React.Fragment>
+    <div>
+      {(errors.length > 0) && (
+        <h3>Errors:</h3>
+      )}
+      {(errors.length > 0) && (
+          errors.map((err, i) => {
+            return <p key={i}>{err.msg}</p>
+          })
+        )
+      }
+    </div>
     <Form
       onSubmit={handleFormSubmit}
       method='post'
@@ -54,6 +80,7 @@ const EventForm = ({ errors, dispatch }) => {
       	Create
       </Button>
     </Form>
+    </React.Fragment>
   );
 }
 

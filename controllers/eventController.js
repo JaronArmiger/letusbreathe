@@ -11,7 +11,6 @@ exports.event_list = async (req, res, next) => {
 }
 
 exports.event_create = [
-/*
   body('title')
     .trim()
     .isLength({ min: 1 })
@@ -21,7 +20,6 @@ exports.event_create = [
     .trim()
     .isLength({ min: 1 }).withMessage('Event must have description')
     .escape(),
-  */
   async (req, res, next) => {
   	//console.log(req.body);
   	const errors = validationResult(req);
@@ -34,7 +32,6 @@ exports.event_create = [
       end: req.body.end,
       description: req.body.description,
     });
-    console.log(event);
     try {
       await event.save();
       res.send({ 
@@ -42,7 +39,6 @@ exports.event_create = [
       	title: event.title,
       });
     } catch(err) {
-      console.log(err.message);
       res.status(500).send({
       	post_error: err.message,
       });
@@ -54,6 +50,9 @@ exports.event_delete = async (req, res, next) => {
     Event.findByIdAndRemove(req.params.id)
       .then(() => res.send({ success: true }))
       .catch((err) => {
-        res.status(500).send({ delete_error: err.message })
+        res.status(500).send({ 
+          delete_error: err.message,
+          success: false,
+        })
       });
 }
