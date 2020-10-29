@@ -16,11 +16,20 @@ const MyCalendar = ({ event, dispatch }) => {
     axios
       .get('/events/')
       .then((results) => {
-        setEvents(results.data)
+        const withDate = results.data.map((event) => {
+          event.start = new Date(event.start);
+          event.end = new Date(event.end);
+          return event;
+        });
+        setEvents(withDate);
       })
       .catch((err) => console.log(err));
   }, []);
-
+/*
+  useEffect(() => {
+    console.log(events);
+  }, [events])
+*/
   const onEventClick = (e) => {
     dispatch(loadEvent(e));
     history.push('/event');

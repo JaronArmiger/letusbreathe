@@ -35,8 +35,7 @@ exports.event_create = [
     try {
       await event.save();
       res.send({ 
-      	_id: event._id,
-      	title: event.title,
+      	event
       });
     } catch(err) {
       res.status(500).send({

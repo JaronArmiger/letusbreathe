@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { getErrors } from '../actions/errors';
+import { loadEvent } from '../actions/event';
 import { useHistory } from 'react-router-dom';
 
 const EventForm = ({ errors, dispatch }) => {
@@ -20,7 +21,8 @@ const EventForm = ({ errors, dispatch }) => {
       if (errors = res.data.errors) {
         dispatch(getErrors(errors))
       } else {
-        history.push('/calendar');
+        dispatch(loadEvent(res.data.event));
+        history.push('/event');
       }
     })
     .catch((err) => {
