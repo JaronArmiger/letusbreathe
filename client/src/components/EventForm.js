@@ -75,7 +75,7 @@ const EventForm = ({ errors, dispatch }) => {
         <input 
           type='time'
           name='startTime'
-          value='12:00'
+          defaultValue='12:00'
         />
       </Form.Group>
       <Form.Group>
@@ -87,7 +87,7 @@ const EventForm = ({ errors, dispatch }) => {
         <input 
           type='time'
           name='endTime'
-          value='12:00'
+          defaultValue='12:00'
         />
       </Form.Group>
       <Button

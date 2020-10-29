@@ -2,8 +2,6 @@ require('dotenv').config();
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
-let env = process.env.NODE_ENV || 'development';
-console.log(env);
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -28,7 +26,6 @@ const getList = async (res) => {
   };
   s3.listObjects(getParams, (err, data) => {
     if (err) return res.status(400).send({ success: false, err});
-    console.log(this);
     const keys = data.Contents.map((photo) => {
       return photo.Key;
     })
