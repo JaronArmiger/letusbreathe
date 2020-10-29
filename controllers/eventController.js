@@ -3,14 +3,14 @@ const { body, validationResult } = require('express-validator');
 
 exports.event_list = async (req, res, next) => {
   try {
-    const events = await Event.find().sort('start');
+    const events = await Event.find();
     res.send(events);
   } catch (err) {
     res.status(500).send({ get_error: err.message });
   }
 }
 
-exports.create_event = [
+exports.event_create = [
 /*
   body('title')
     .trim()
@@ -23,7 +23,7 @@ exports.create_event = [
     .escape(),
   */
   async (req, res, next) => {
-  	console.log(req.body);
+  	//console.log(req.body);
   	const errors = validationResult(req);
   	if (!errors.isEmpty()) {
   	  return res.send(errors);
@@ -34,6 +34,7 @@ exports.create_event = [
       end: req.body.end,
       description: req.body.description,
     });
+    console.log(event);
     try {
       await event.save();
       res.send({ 
@@ -41,9 +42,18 @@ exports.create_event = [
       	title: event.title,
       });
     } catch(err) {
+      console.log(err.message);
       res.status(500).send({
       	post_error: err.message,
       });
     }
   }
 ];
+
+exports.event_delete = async (req, res, next) => {
+    Event.findByIdAndRemove(req.params.id)
+      .then(() => res.send({ success: true }))
+      .catch((err) => {
+        res.status(500).send({ delete_error: err.message })
+      });
+}

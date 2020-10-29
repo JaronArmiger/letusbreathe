@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { startLoadPhotos, getPhotoKeys } from '../actions/photos';
+import { getPhotoKeys } from '../actions/photos';
 import Photo from './Photo';
 import uniqid from 'uniqid';
 
 const Gallery = ({ errors, photos, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [photoKeys, setPhotoKeys] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);

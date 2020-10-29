@@ -57,8 +57,8 @@ const UploadForm = ({ errors, dispatch}) => {
         <Button
           variant="primary"
           type="submit"
-          className={`${photos.length == 0 ? 'disabled submit-btn' : 'submit-btn'}`}
-          disabled={photos.length == 0 ? true : false}
+          className={`${photos.length === 0 ? 'disabled submit-btn' : 'submit-btn'}`}
+          disabled={photos.length === 0 ? true : false}
         >
         Upload
       </Button>
