@@ -27,7 +27,6 @@ const Gallery = ({ errors, photos, dispatch }) => {
         <div className='loading-msg centered-message'>Loading...</div>
       ) : (
         photos.map((photo) => {
-          console.log(photo);
           return <Photo key={uniqid()} url={photo}/>
         })
       )}
