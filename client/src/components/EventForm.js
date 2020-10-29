@@ -5,17 +5,21 @@ import axios from 'axios';
 import { getErrors } from '../actions/errors';
 import { loadEvent } from '../actions/event';
 import { useHistory } from 'react-router-dom';
+import DateTimePicker from 'react-datetime-picker';
 
 const EventForm = ({ errors, dispatch }) => {
   let history = useHistory();
 
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
+    const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
+    const endTimeString = e.target.endDate.value + ' ' + e.target.endTime.value + ':00';
+
     axios.post('/events/create', {
       title: e.target.title.value,
       description: e.target.description.value,
-      start: e.target.start.value,
-      end: e.target.end.value,
+      start: startTimeString,
+      end: endTimeString,
     })
     .then((res) => {
       if (errors = res.data.errors) {
@@ -66,14 +70,22 @@ const EventForm = ({ errors, dispatch }) => {
         <Form.Label>Start</Form.Label>
         <Form.Control 
           type='date'
-          name='start'
+          name='startDate'
+        />
+        <input 
+          type='time'
+          name='startTime'
         />
       </Form.Group>
       <Form.Group>
         <Form.Label>Start</Form.Label>
         <Form.Control 
           type='date'
-          name='end'
+          name='endDate'
+        />
+        <input 
+          type='time'
+          name='endTime'
         />
       </Form.Group>
       <Button

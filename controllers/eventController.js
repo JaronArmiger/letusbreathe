@@ -20,6 +20,15 @@ exports.event_create = [
     .trim()
     .isLength({ min: 1 }).withMessage('Event must have description')
     .escape(),
+  body('start')
+    .custom((value, { req }) => {
+      const startDate = new Date(value);
+      const endDate = new Date(req.body.end);
+      if (startDate >= endDate) {
+        throw new Error('End Date/Time must be after start Date/Time')
+      }
+      return true;
+    }),
   async (req, res, next) => {
   	//console.log(req.body);
   	const errors = validationResult(req);
