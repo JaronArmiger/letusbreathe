@@ -15,7 +15,7 @@ exports.album_list = async (req, res, next) => {
 exports.album_get = async (req, res, next) => {
   try {
   	const album = await Album.findById(req.params.id);
-  	const photos = await Photo.find({ 'photo': req.params.id });
+  	const photos = await Photo.find({ 'album': req.params.id });
 
   	res.send({
   		album, photos
