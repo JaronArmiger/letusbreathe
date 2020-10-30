@@ -10,7 +10,7 @@ const Event = ({ event, dispatch }) => {
 
   const handleEdit = (e) => {
     dispatch(loadEvent(event));
-    history.push('/eventform');
+    history.push('/update_event');
   }
 
   const handleDelete = (e) => {

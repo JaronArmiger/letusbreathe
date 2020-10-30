@@ -14,7 +14,7 @@ const Header = () => (
       <NavLink to='/calendar' className='link'>
         Calendar
       </NavLink>
-      <NavLink to='/eventform' className='link'>
+      <NavLink to='/create_event' className='link'>
         Create Event
       </NavLink>
   	</div>

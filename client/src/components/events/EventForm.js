@@ -7,8 +7,18 @@ import { loadEvent } from '../../actions/event';
 import { useHistory } from 'react-router-dom';
 import DateTimePicker from 'react-datetime-picker';
 
-const EventForm = ({ errors, dispatch }) => {
+const EventForm = ({ 
+    errors, 
+    dispatch, 
+    update=false,
+    event,
+  }) => {
   let history = useHistory();
+
+  if (update && event) {
+    console.log(event.start.toISOString().substr(11,5));
+  }
+
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
@@ -55,6 +65,7 @@ const EventForm = ({ errors, dispatch }) => {
         <Form.Control 
           type='text'
           name='title'
+          defaultValue={event && update ? event.title : ''}
         />
       </Form.Group>
       <Form.Group>
@@ -63,6 +74,7 @@ const EventForm = ({ errors, dispatch }) => {
           as='textarea'
           name='description'
           rows={3}
+          defaultValue={event && update ? event.description : ''}
         />
       </Form.Group>
       <Form.Group>
@@ -70,23 +82,25 @@ const EventForm = ({ errors, dispatch }) => {
         <Form.Control 
           type='date'
           name='startDate'
+          defaultValue={event && update ? event.start.toISOString().substr(0,10) : ''}
         />
         <input 
           type='time'
           name='startTime'
-          defaultValue='12:00'
+          defaultValue={event && update ? event.start.toISOString().substr(11,5) : '12:00'}
         />
       </Form.Group>
       <Form.Group>
-        <Form.Label>Start</Form.Label>
+        <Form.Label>End</Form.Label>
         <Form.Control 
           type='date'
           name='endDate'
+          defaultValue={event && update ? event.end.toISOString().substr(0,10) : ''}
         />
         <input 
           type='time'
           name='endTime'
-          defaultValue='12:00'
+          defaultValue={event && update ? event.end.toISOString().substr(11,5) : '12:00'}
         />
       </Form.Group>
       <Button
@@ -101,6 +115,7 @@ const EventForm = ({ errors, dispatch }) => {
 
 const mapStateToProps = (state) => ({
   errors: state.errors || {},
+  event: state.event || null,
 });
 
 export default connect(mapStateToProps)(EventForm);
