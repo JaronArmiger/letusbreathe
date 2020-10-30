@@ -12,6 +12,16 @@ exports.album_list = async (req, res, next) => {
     })
 };
 
+exports.album_names = async (req, res, next) => {
+  await Album.find({}, 'name')
+    .then((albums) => {
+      res.send(albums);
+    })
+    .catch((err) => {
+      return next(err);
+    })
+}
+
 exports.album_get = async (req, res, next) => {
   try {
   	const album = await Album.findById(req.params.id);

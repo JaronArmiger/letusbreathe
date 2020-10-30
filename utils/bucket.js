@@ -34,9 +34,11 @@ const getList = async (res) => {
   });
 }
 
-const postFile = (source, targetName, res) => {
+const postFile = (source, targetName, albumId, res) => {
   console.log('preparing to upload...');
-  const photo = new Photo();
+  const photo = new Photo({
+    album: albumId,
+  });
   photo.save()
     .then((photo) => {
       fs.readFile(source, (err, filedata) => {

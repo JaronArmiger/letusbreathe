@@ -45,17 +45,17 @@ router.post('/post_file', upload.single('photo'),
 
 router.post('/upload_mult', upload.array('photos', 12), 
   async (req, res, next) => {
-  let uploadFilePromises = [];
-  console.log(req.files);
-  req.files.forEach((file) => {
-  	uploadFilePromises
-  	  .push(bucketUtils.postFile(file.path, file.filename, res));
-  })
-  Promise.all(uploadFilePromises)
-    .then((results) => {
-      res.send({ success: true, results })
+    let uploadFilePromises = [];
+    req.files.forEach((file) => {
+  	  uploadFilePromises
+  	    .push(bucketUtils.postFile(file.path, file.filename, req.body.album, res));
     })
-    .catch((e) => res.send(e))
+    Promise.all(uploadFilePromises)
+      .then((results) => {
+        res.send({ success: true, results })
+      })
+      .catch((e) => res.send(e))
+
 })
 
 

@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { getErrors } from './errors';
 
-export const beginAddPhotos = (photos) => {
+export const beginAddPhotos = (photos, albumId) => {
   return async (dispatch) => {
     try {
       const formData = new FormData();
-      console.log(formData);
       for (const key of Object.keys(photos)) {
         formData.append('photos', photos[key]);
       }
+      formData.append('album', albumId);
       /*
       for (var pair of formData.entries()) {
         console.log(pair[0] + ',' + pair[1]);
