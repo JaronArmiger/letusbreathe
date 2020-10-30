@@ -35,8 +35,8 @@ const EventForm = ({
             dispatch(getErrors(errors))
           } else {
             const updatedEvent = res.data.event;
-            updatedEvent.start = new Date(updatedEvent.start);
-            updatedEvent.end = new Date(updatedEvent.end);
+            //updatedEvent.start = new Date(updatedEvent.start);
+            //updatedEvent.end = new Date(updatedEvent.end);
             dispatch(loadEvent(updatedEvent));
             history.push('/event');
           }
@@ -59,8 +59,8 @@ const EventForm = ({
           dispatch(getErrors(errors))
         } else {
           const createdEvent = res.data.event;
-          createdEvent.start = new Date(createdEvent.start);
-          createdEvent.end = new Date(createdEvent.end);
+          //createdEvent.start = new Date(createdEvent.start);
+          //createdEvent.end = new Date(createdEvent.end);
           dispatch(loadEvent(createdEvent));
           history.push('/event');
         }

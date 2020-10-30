@@ -17,11 +17,15 @@ const MyCalendar = ({ event, dispatch }) => {
       .get('/events/')
       .then((results) => {
         const withDate = results.data.map((event) => {
-          event.start = new Date(event.start);
-          event.end = new Date(event.end);
+          const startDate = new Date(event.start);
+          const endDate = new Date(event.end);
+          const timeDiff = startDate.getTimezoneOffset / 60;
+          startDate.setHours(startDate.getHours() + 5);
+          endDate.setHours(endDate.getHours() + 5);
+          event.start = startDate;
+          event.end = endDate;
           return event;
         });
-        console.log(withDate);
         setEvents(withDate);
       })
       .catch((err) => console.log(err));
