@@ -8,6 +8,7 @@ require('./database');
 const apiRouter = require('./routes/api');
 const bucketRouter = require('./routes/bucket');
 const eventsRouter = require('./routes/events');
+const albumsRouter = require('./routes/albums');
 
 var app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('/api', apiRouter);
 app.use('/bucket', bucketRouter);
 app.use('/events', eventsRouter);
+app.use('/albums', albumsRouter);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname + '/client/build/index.html'));
