@@ -16,27 +16,11 @@ const MyCalendar = ({ event, dispatch }) => {
     axios
       .get('/events/')
       .then((results) => {
-        const withDate = results.data.map((event) => {
-          /*
-          const startDate = new Date(event.start);
-          const endDate = new Date(event.end);
-          const timeDiff = startDate.getTimezoneOffset / 60;
-          startDate.setHours(startDate.getHours() + 5);
-          endDate.setHours(endDate.getHours() + 5);
-          event.start = startDate;
-          event.end = endDate;
-          */
-          return event;
-        });
-        setEvents(withDate);
+        setEvents(results.data);
       })
       .catch((err) => console.log(err));
   }, []);
-/*
-  useEffect(() => {
-    console.log(events);
-  }, [events])
-*/
+  
   const onEventClick = (e) => {
     dispatch(loadEvent(e));
     history.push('/event');
