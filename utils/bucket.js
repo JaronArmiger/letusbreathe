@@ -1,7 +1,8 @@
 require('dotenv').config();
 const AWS = require('aws-sdk');
 const fs = require('fs');
-
+const photoController = require('../controllers/photoController');
+const Photo = require('../models/photo');
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -31,33 +32,30 @@ const getList = async (res) => {
     })
     return res.send(keys);
   });
-  /*
-  data.Contents.forEach((el) => {
-    objects = objects.concat(el);
-    //console.log(el.Key);
-  });
-  */
-  //console.log(keys);
-  //return objects;
 }
 
 const postFile = (source, targetName, res) => {
   console.log('preparing to upload...');
-  fs.readFile(source, (err, filedata) => {
-    const putParams = {
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: targetName,
-      Body: filedata,
-    };
-    s3.putObject(putParams, (err, data) => {
-      if (err) {
-        console.log('Could not upload file: ', err);
-        return (null);
-      }
-      console.log('success!');
-      return('nice');
+  const photo = new Photo();
+  photo.save()
+    .then((photo) => {
+      fs.readFile(source, (err, filedata) => {
+        const putParams = {
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: photo._id.toString(),
+          Body: filedata,
+        };
+        s3.putObject(putParams, (err, data) => {
+          if (err) {
+            console.log('Could not upload file: ', err);
+            return (null);
+          }
+          console.log('success!');
+          return('nice');
+        })
+      })
     })
-  })
+    .catch((err) => next(err))
 }
 
 const encode = (data) => {
