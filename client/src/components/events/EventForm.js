@@ -15,32 +15,55 @@ const EventForm = ({
   }) => {
   let history = useHistory();
 
-  if (update && event) {
-    console.log(event.start.toISOString().substr(11,5));
-  }
-
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
     const endTimeString = e.target.endDate.value + ' ' + e.target.endTime.value + ':00';
-
-    axios.post('/events/create', {
-      title: e.target.title.value,
-      description: e.target.description.value,
-      start: startTimeString,
-      end: endTimeString,
-    })
-    .then((res) => {
-      if (errors = res.data.errors) {
-        dispatch(getErrors(errors))
+    const title = e.target.title.value;
+    const description = e.target.description.value;
+    
+    if (update) {
+      if (event) {
+        axios.put(`/events/${event._id}`)
+        .then((res) => {
+          if (errors = res.data.errors) {
+            dispatch(getErrors(errors))
+          } else {
+            const updatedEvent = res.data.event;
+            updatedEvent.start = new Date(updatedEvent.start);
+            updatedEvent.end = new Date(updatedEvent.end);
+            dispatch(loadEvent(updatedEvent));
+            history.push('/event');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        })
       } else {
-        dispatch(loadEvent(res.data.event));
-        history.push('/event');
+        dispatch(getErrors({0: { msg: 'no event loaded' }}));
       }
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+    } else {
+      axios.post('/events/create', {
+        title,
+        description,
+        start: startTimeString,
+        end: endTimeString,
+      })
+      .then((res) => {
+        if (errors = res.data.errors) {
+          dispatch(getErrors(errors))
+        } else {
+          const createdEvent = res.data.event;
+          createdEvent.start = new Date(createdEvent.start);
+          createdEvent.end = new Date(createdEvent.end);
+          dispatch(loadEvent(createdEvent));
+          history.push('/event');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+    }
   }
 
   return (
@@ -87,7 +110,7 @@ const EventForm = ({
         <input 
           type='time'
           name='startTime'
-          defaultValue={event && update ? event.start.toISOString().substr(11,5) : '12:00'}
+          defaultValue={event && update ? event.start.toLocaleString([], { hour: '2-digit', minute: '2-digit' }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Form.Group>
@@ -100,13 +123,13 @@ const EventForm = ({
         <input 
           type='time'
           name='endTime'
-          defaultValue={event && update ? event.end.toISOString().substr(11,5) : '12:00'}
+          defaultValue={event && update ? event.end.toLocaleString([], { hour: '2-digit', minute: '2-digit' }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Button
         type='submit'
       >
-      	Create
+      	{update ? 'Update Event' : 'Create Event' }
       </Button>
     </Form>
     </React.Fragment>

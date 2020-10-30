@@ -9,7 +9,6 @@ const Event = ({ event, dispatch }) => {
   let history = useHistory();
 
   const handleEdit = (e) => {
-    dispatch(loadEvent(event));
     history.push('/update_event');
   }
 
