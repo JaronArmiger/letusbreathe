@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "heroku-postbuild": "cd client && yarn && yarn run build",
+    "heroku-postbuild": "migrate-mongo up && cd client && yarn && yarn run build",
     "devstart": "nodemon ./bin/www"
   },
   "dependencies": {
