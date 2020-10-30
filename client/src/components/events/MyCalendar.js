@@ -17,6 +17,7 @@ const MyCalendar = ({ event, dispatch }) => {
       .get('/events/')
       .then((results) => {
         const withDate = results.data.map((event) => {
+          /*
           const startDate = new Date(event.start);
           const endDate = new Date(event.end);
           const timeDiff = startDate.getTimezoneOffset / 60;
@@ -24,6 +25,7 @@ const MyCalendar = ({ event, dispatch }) => {
           endDate.setHours(endDate.getHours() + 5);
           event.start = startDate;
           event.end = endDate;
+          */
           return event;
         });
         setEvents(withDate);
