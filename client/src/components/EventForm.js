@@ -37,10 +37,10 @@ const EventForm = ({ errors, dispatch }) => {
   return (
     <React.Fragment>
     <div>
-      {(errors.length > 0) && (
+      {(errors) && (errors.length > 0) && (
         <h3>Errors:</h3>
       )}
-      {(errors.length > 0) && (
+      {(errors) && (errors.length > 0) && (
           errors.map((err, i) => {
             return <p key={i}>{err.msg}</p>
           })

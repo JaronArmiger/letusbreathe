@@ -14,12 +14,10 @@ exports.event_create = [
   body('title')
     .trim()
     .isLength({ min: 1 })
-    .withMessage('Event must have title')
-    .escape(),
+    .withMessage('Event must have title'),
   body('description')
     .trim()
-    .isLength({ min: 1 }).withMessage('Event must have description')
-    .escape(),
+    .isLength({ min: 1 }).withMessage('Event must have description'),
   body('start')
     .custom((value, { req }) => {
       const startDate = new Date(value);
@@ -32,6 +30,7 @@ exports.event_create = [
   async (req, res, next) => {
   	//console.log(req.body);
   	const errors = validationResult(req);
+    console.log(decodeURIComponent(req.body.description));
   	if (!errors.isEmpty()) {
   	  return res.send(errors);
   	}
@@ -39,7 +38,7 @@ exports.event_create = [
       title: req.body.title,
       start: req.body.start,
       end: req.body.end,
-      description: req.body.description,
+      description: decodeURI(req.body.description),
     });
     try {
       await event.save();
