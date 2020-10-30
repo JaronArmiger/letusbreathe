@@ -5,7 +5,7 @@ module.exports = {
   async up(db, client) {
     await db.collection('events').updateMany({}, {
       $set: {
-        photo: null,
+        photo: {type: Schema.Types.ObjectId, ref: 'Photo'},
       }
     })
   },
