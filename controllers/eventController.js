@@ -63,7 +63,7 @@ exports.event_delete = async (req, res, next) => {
       .then(() => res.send({ success: true }))
       .catch((err) => {
         res.status(500).send({ 
-          delete_error: err.message,
+          error: err.message,
           success: false,
         })
       });

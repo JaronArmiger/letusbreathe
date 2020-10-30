@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
@@ -7,13 +7,25 @@ import { loadEvent } from '../../actions/event';
 
 const Event = ({ event, dispatch }) => {
   let history = useHistory();
+  
+  const [errMsg, setErrMsg] = useState(null);
 
   const handleEdit = (e) => {
     history.push('/update_event');
   }
 
   const handleDelete = (e) => {
-    console.log(event);
+    axios.delete(`/events/${event._id}`)
+      .then((res) => {
+        if (res.data.success === true) {
+          history.push('calendar');
+        } else {
+          setErrMsg(res.data.error);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
   
   let eventInfo;
@@ -24,6 +36,7 @@ const Event = ({ event, dispatch }) => {
 
     eventInfo = (
         <div>
+          {errMsg && <p>{errMsg}</p>}
           <h1>Title: {event.title}</h1>
           <p><b>Start Date: </b>{startDate.toLocaleDateString()}</p>
           <p><b>Start Time: </b>{startDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</p>
