@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import { beginAddPhotos } from '../actions/photos';
+import { beginAddPhotos } from '../../actions/photos';
 
 const UploadForm = ({ errors, dispatch}) => {
   const [photos, setPhotos] = useState([]);

@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Header from '../components/Header';
-import UploadForm from '../components/UploadForm';
-import Gallery from '../components/Gallery';
-import MyCalendar from '../components/MyCalendar';
-import Event from '../components/Event';
-import EventForm from '../components/EventForm';
+import UploadForm from '../components/photos/UploadForm';
+import Gallery from '../components/photos/Gallery';
+import MyCalendar from '../components/events/MyCalendar';
+import Event from '../components/events/Event';
+import EventForm from '../components/events/EventForm';
 
 const AppRouter = () => (
   <BrowserRouter>

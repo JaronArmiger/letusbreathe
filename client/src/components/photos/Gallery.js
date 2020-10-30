@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getPhotoKeys } from '../actions/photos';
+import { getPhotoKeys } from '../../actions/photos';
 import Photo from './Photo';
 import uniqid from 'uniqid';
 

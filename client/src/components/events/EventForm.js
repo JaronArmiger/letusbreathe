@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { getErrors } from '../actions/errors';
-import { loadEvent } from '../actions/event';
+import { getErrors } from '../../actions/errors';
+import { loadEvent } from '../../actions/event';
 import { useHistory } from 'react-router-dom';
 import DateTimePicker from 'react-datetime-picker';
 
 const EventForm = ({ errors, dispatch }) => {
   let history = useHistory();
-
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
@@ -101,7 +100,7 @@ const EventForm = ({ errors, dispatch }) => {
 }
 
 const mapStateToProps = (state) => ({
-  errors: state.errors || {}
+  errors: state.errors || {},
 });
 
 export default connect(mapStateToProps)(EventForm);

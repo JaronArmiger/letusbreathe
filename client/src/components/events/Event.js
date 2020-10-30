@@ -1,13 +1,20 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import { loadEvent } from '../../actions/event';
 
-const Event = ({ event }) => {
+const Event = ({ event, dispatch }) => {
+  let history = useHistory();
+
+  const handleEdit = (e) => {
+    dispatch(loadEvent(event));
+    history.push('/eventform');
+  }
+
   const handleDelete = (e) => {
     console.log(event);
-
   }
   
   let eventInfo;
@@ -24,6 +31,12 @@ const Event = ({ event }) => {
           <p><b>End Date: </b>{endDate.toLocaleDateString()}</p>
           <p><b>End Time: </b>{endDate.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}</p>
           <p><b>Description: </b>{event.description}</p>
+          <Button
+            type='submit'
+            onClick={handleEdit}
+          >
+            Edit  
+          </Button>
           <Button
             type='submit'
             onClick={handleDelete}
