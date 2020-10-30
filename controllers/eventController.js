@@ -10,6 +10,12 @@ exports.event_list = async (req, res, next) => {
   }
 }
 
+exports.event_get = async (req, res, next) => {
+  Event.findById(req.params.id)
+    .then((event) => res.send(event))
+    .catch((err) => res.send(err));
+}
+
 exports.event_create = [
   body('title')
     .trim()
@@ -30,7 +36,6 @@ exports.event_create = [
   async (req, res, next) => {
   	//console.log(req.body);
   	const errors = validationResult(req);
-    console.log(decodeURIComponent(req.body.description));
   	if (!errors.isEmpty()) {
   	  return res.send(errors);
   	}
@@ -38,7 +43,7 @@ exports.event_create = [
       title: req.body.title,
       start: req.body.start,
       end: req.body.end,
-      description: decodeURI(req.body.description),
+      description: req.body.description,
     });
     try {
       await event.save();
@@ -63,3 +68,44 @@ exports.event_delete = async (req, res, next) => {
         })
       });
 }
+
+exports.event_update = [
+  body('title')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Event must have title'),
+  body('description')
+    .trim()
+    .isLength({ min: 1 }).withMessage('Event must have description'),
+  body('start')
+    .custom((value, { req }) => {
+      const startDate = new Date(value);
+      const endDate = new Date(req.body.end);
+      if (startDate >= endDate) {
+        throw new Error('End Date/Time must be after start Date/Time')
+      }
+      return true;
+    }),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.send(errors);
+    }
+
+    const event = new Event({
+      title: req.body.title,
+      start: req.body.start,
+      end: req.body.end,
+      description: req.body.description,
+    })
+
+    Event.findByIdAndUpdate(req.params.id, event, {})
+      .then(() => res.send(event))
+      .catch((err) => {
+        res.status(500).send({ 
+          update_error: err.message,
+          success: false,
+        })
+      });
+  }
+];
