@@ -115,7 +115,7 @@ const EventForm = ({
         <input 
           type='time'
           name='startTime'
-          defaultValue={event && update ? event.start.toLocaleTimeString('en-US', { timeZone: 'America/Chicago',hour12: false }).substr(0,5) : '12:00'}
+          defaultValue={event && update ? event.start.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour12: false }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Form.Group>
@@ -128,7 +128,7 @@ const EventForm = ({
         <input 
           type='time'
           name='endTime'
-          defaultValue={event && update ? event.end.toLocaleTimeString('en-US', { timeZone: 'America/Chicago',hour12: false }).substr(0,5) : '12:00'}
+          defaultValue={event && update ? event.end.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour12: false }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Button

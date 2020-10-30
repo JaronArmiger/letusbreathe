@@ -21,6 +21,7 @@ const MyCalendar = ({ event, dispatch }) => {
           event.end = new Date(event.end);
           return event;
         });
+        console.log(withDate);
         setEvents(withDate);
       })
       .catch((err) => console.log(err));
