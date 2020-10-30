@@ -88,6 +88,7 @@ exports.event_update = [
     }),
   async (req, res, next) => {
     const errors = validationResult(req);
+    console.log(req.body)
     if (!errors.isEmpty()) {
       return res.send(errors);
     }
@@ -97,11 +98,13 @@ exports.event_update = [
       start: req.body.start,
       end: req.body.end,
       description: req.body.description,
+      _id: req.params.id,
     })
 
     Event.findByIdAndUpdate(req.params.id, event, {})
-      .then(() => res.send(event))
+      .then(() => res.send({event}))
       .catch((err) => {
+        console.log(err.message)
         res.status(500).send({ 
           update_error: err.message,
           success: false,

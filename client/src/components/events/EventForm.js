@@ -24,7 +24,12 @@ const EventForm = ({
     
     if (update) {
       if (event) {
-        axios.put(`/events/${event._id}`)
+        axios.put(`/events/${event._id}`, {
+          title,
+          description,
+          start: startTimeString,
+          end: endTimeString,
+        })
         .then((res) => {
           if (errors = res.data.errors) {
             dispatch(getErrors(errors))
@@ -110,7 +115,7 @@ const EventForm = ({
         <input 
           type='time'
           name='startTime'
-          defaultValue={event && update ? event.start.toLocaleString([], { hour: '2-digit', minute: '2-digit' }).substr(0,5) : '12:00'}
+          defaultValue={event && update ? event.start.toLocaleTimeString('en-US', { hour12: false }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Form.Group>
@@ -123,7 +128,7 @@ const EventForm = ({
         <input 
           type='time'
           name='endTime'
-          defaultValue={event && update ? event.end.toLocaleString([], { hour: '2-digit', minute: '2-digit' }).substr(0,5) : '12:00'}
+          defaultValue={event && update ? event.end.toLocaleTimeString('en-US', { hour12: false }).substr(0,5) : '12:00'}
         />
       </Form.Group>
       <Button
