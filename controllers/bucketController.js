@@ -25,12 +25,6 @@ exports.post_file = (req, res, next) => {
   res.send({ success: true });
 }
 
-exports.delete_file = (req, res, next) => {
-  bucketUtils.deleteFile(req.params.filename)
-    .then(() => {
-      res.send({ success: true });
-    })
-    .catch((e) => {
-      res.send({ error: e });
-    });
+exports.delete_file = async (req, res, next) => {
+  bucketUtils.deleteFile(req.params.filename, res);
 }

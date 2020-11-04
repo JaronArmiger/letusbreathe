@@ -60,14 +60,32 @@ const postFile = (source, targetName, albumId, res) => {
     .catch((err) => next(err))
 }
 
-const deleteFile = (filename) => {
+const deleteFile = (filename, res) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: filename,
   };
 
-  const data = s3.deleteObject(params).promise();
-  return data;
+  const deletionPromise = s3.deleteObject(params).promise();
+  deletionPromise
+    .then(() => {
+      Photo.findByIdAndRemove(filename)
+        .then(() => res.send({ success: true }))
+        .catch((err) => {
+          res.status(500).send({ 
+            error: err.message,
+            msg: "deleted on s3 but not mongo",
+            success: false,
+          })
+        });
+    })
+    .catch((err) => {
+      res.status(500).send({ 
+        error: err.message,
+        msg: "unable to delete s3 obj",
+        success: false,
+      })
+    });
 }
 
 const encode = (data) => {
