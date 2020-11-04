@@ -1,5 +1,6 @@
 const Album = require('../models/album');
 const Photo = require('../models/photo');
+const bucketUtils = require('../utils/bucket');
 const { body, validationResult } = require('express-validator');
 
 exports.album_list = async (req, res, next) => {
@@ -57,3 +58,29 @@ exports.album_create = [
       .catch((err) => next(err))
   }
 ];
+
+exports.album_delete = async (req, res, next) => {
+  const photos = await Photo.find({ 'album': req.params.id }, '_id');
+  const deletePhotoPromises = [];
+    
+  photos.forEach((photo) => {
+    deletePhotoPromises.push(bucketUtils.deleteFile(photo._id.toString(), res))
+  });
+  Promise.all(deletePhotoPromises)
+    .then((results) => {
+      Album.findByIdAndRemove(req.params.id)
+        .then(() => {
+          return res.send({ 
+            success: true,
+            results
+          });
+        })
+        .catch((err) => {
+          res.send({ error: err.message });
+        });
+    })
+    .catch((err) => {
+      res.send({ error: err.message });
+    })
+}
+

@@ -70,7 +70,7 @@ const deleteFile = (filename, res) => {
   deletionPromise
     .then(() => {
       Photo.findByIdAndRemove(filename)
-        .then(() => res.send({ success: true }))
+        .then(() => true)
         .catch((err) => {
           res.status(500).send({ 
             error: err.message,
