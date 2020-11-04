@@ -8,12 +8,6 @@ export const beginAddPhotos = (photos, albumId) => {
       for (const key of Object.keys(photos)) {
         formData.append('photos', photos[key]);
       }
-      formData.append('album', albumId);
-      /*
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ',' + pair[1]);
-      }
-      */
       await axios.post('/bucket/upload_mult', formData, {
       	headers: {
       	  'Content-Type': 'multipart/form-data',
@@ -24,6 +18,19 @@ export const beginAddPhotos = (photos, albumId) => {
     }
   }
 };
+
+/*
+export const addEventPhoto = (photo) => {
+  return async (dispatch) => {
+    try {
+      
+    } catch (err) {
+      err.response && dispatch(getErrors(err.response.data));
+    }
+  }
+}
+*/
+
 export const getPhotoKeys = () => {
   return async (dispatch) => {
     try {

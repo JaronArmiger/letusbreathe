@@ -17,12 +17,12 @@ exports.list = async (req, res, next) => {
   //res.send(data.Body);
 }
 
-exports.post_file = (req, res, next) => {
-  if (req.fileValidationError) {
-    return res.send({ err: req.fileValidationError });
-  }
-  bucketUtils.postFile(req.file.path, req.file.filename, res);
-  res.send({ success: true });
+exports.post_file = async (req, res, next) => {
+  bucketUtils.postFile(req.file.path, req.file.filename, req.body.album, res);
+  res.send({ 
+    success: true,
+    result
+  });
 }
 
 exports.delete_file = async (req, res, next) => {

@@ -34,10 +34,10 @@ const getList = async (res) => {
   });
 }
 
-const postFile = (source, targetName, albumId, res) => {
+const postFile = async (source, targetName, albumId, res) => {
   console.log('preparing to upload...');
   const photo = new Photo({
-    album: albumId || null,
+    album: albumId,
   });
   photo.save()
     .then((photo) => {
@@ -50,14 +50,16 @@ const postFile = (source, targetName, albumId, res) => {
         s3.putObject(putParams, (err, data) => {
           if (err) {
             console.log('Could not upload file: ', err);
-            return (null);
+            return err;
           }
-          console.log('success!');
-          return('nice');
+          return photo._id;
         })
       })
     })
-    .catch((err) => next(err))
+    .catch((err) => {
+      console.log(err);
+      return err;
+    })
 }
 
 const deleteFile = (filename, res) => {
