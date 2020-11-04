@@ -37,7 +37,7 @@ const getList = async (res) => {
 const postFile = (source, targetName, albumId, res) => {
   console.log('preparing to upload...');
   const photo = new Photo({
-    album: albumId,
+    album: albumId || null,
   });
   photo.save()
     .then((photo) => {
@@ -60,6 +60,16 @@ const postFile = (source, targetName, albumId, res) => {
     .catch((err) => next(err))
 }
 
+const deleteFile = (filename) => {
+  const params = {
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: filename,
+  };
+
+  const data = s3.deleteObject(params).promise();
+  return data;
+}
+
 const encode = (data) => {
   let buf = Buffer.from(data);
   let base64 = buf.toString('base64');
@@ -70,5 +80,6 @@ module.exports = {
   getImage,
   getList,
   postFile,
+  deleteFile,
   encode,
 }

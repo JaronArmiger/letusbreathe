@@ -17,6 +17,9 @@ const EventForm = ({
 
   const handleFormSubmit = (e) => {
   	e.preventDefault(e);
+    /* here */
+    const photo = e.target.photo.files[0];
+    /*   ___________    */
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
     const endTimeString = e.target.endDate.value + ' ' + e.target.endTime.value + ':00';
     const title = e.target.title.value;
@@ -131,6 +134,14 @@ const EventForm = ({
           defaultValue={event && update ? event.end.toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour12: false }).substr(0,5) : '12:00'}
         />
       </Form.Group>
+      <Form.Group>
+          <Form.Label>Add photo</Form.Label>
+          <Form.Control 
+            type="file" 
+            name="photo"
+            accept="image/jpeg image/jpg"
+            />
+        </Form.Group>
       <Button
         type='submit'
       >

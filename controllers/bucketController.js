@@ -24,3 +24,13 @@ exports.post_file = (req, res, next) => {
   bucketUtils.postFile(req.file.path, req.file.filename, res);
   res.send({ success: true });
 }
+
+exports.delete_file = (req, res, next) => {
+  bucketUtils.deleteFile(req.params.filename)
+    .then(() => {
+      res.send({ success: true });
+    })
+    .catch((e) => {
+      res.send({ error: e });
+    });
+}

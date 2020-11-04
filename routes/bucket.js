@@ -41,6 +41,8 @@ router.get('/get_file/:filename', bucketController.get_file);
 router.get('/list', bucketController.list);
 router.post('/post_file', upload.single('photo'),
   bucketController.post_file);
+router.delete('/delete_file/:filename',
+  bucketController.delete_file);
 
 
 router.post('/upload_mult', upload.array('photos', 12), 
