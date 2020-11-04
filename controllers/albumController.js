@@ -5,6 +5,7 @@ const { body, validationResult } = require('express-validator');
 exports.album_list = async (req, res, next) => {
   await Album.find()
     .then((albums) => {
+      
       res.send(albums);
     })
     .catch((err) => {
