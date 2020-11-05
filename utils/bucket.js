@@ -65,32 +65,24 @@ const postFile = async (source, targetName, albumId) => {
   })
 }
 
-const deleteFile = (filename, res) => {
-  const params = {
-    Bucket: process.env.AWS_BUCKET_NAME,
-    Key: filename,
-  };
-
-  const deletionPromise = s3.deleteObject(params).promise();
-  deletionPromise
-    .then(() => {
-      Photo.findByIdAndRemove(filename)
-        .then(() => true)
-        .catch((err) => {
-          res.status(500).send({ 
-            error: err.message,
-            msg: "deleted on s3 but not mongo",
-            success: false,
-          })
-        });
-    })
-    .catch((err) => {
-      res.status(500).send({ 
-        error: err.message,
-        msg: "unable to delete s3 obj",
-        success: false,
+const deleteFile = (filename) => {
+  return new Promise(async (resolve, reject) => {
+    const params = {
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: filename,
+    };
+    s3.deleteObject(params).promise()
+      .then(() => {
+        Photo.findByIdAndRemove(filename)
+          .then(() => resolve(true))
+          .catch((err) => {
+            reject(err);
+          });
       })
-    });
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
 const encode = (data) => {

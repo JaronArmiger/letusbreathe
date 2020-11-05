@@ -21,7 +21,7 @@ exports.post_file = async (req, res, next) => {
   bucketUtils.postFile(req.file.path, req.file.filename, req.body.album, req)
     .then(async (photoId) => {
       res.send({ photoId })
-    }, err => {
+    }, (err) => {
       next(err);
     });
 }
@@ -40,5 +40,10 @@ exports.upload_mult = async (req, res, next) => {
 }
 
 exports.delete_file = async (req, res, next) => {
-  bucketUtils.deleteFile(req.params.filename, res);
+  bucketUtils.deleteFile(req.params.filename)
+    .then((success) => {
+      res.send({ success });
+    }, (err) => {
+      next(err);
+    });
 }

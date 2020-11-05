@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const bucketUtils = require('../utils/bucket');
 
 //temp ------------------------
 const AWS = require('aws-sdk');
@@ -43,7 +42,6 @@ router.post('/post_file', upload.single('photo'),
   bucketController.post_file);
 router.delete('/delete_file/:filename',
   bucketController.delete_file);
-
 
 router.post('/upload_mult', 
   upload.array('photos', 12), 
