@@ -34,32 +34,35 @@ const getList = async (res) => {
   });
 }
 
-const postFile = async (source, targetName, albumId, res) => {
+
+
+const postFile = async (source, targetName, albumId) => {
   console.log('preparing to upload...');
-  const photo = new Photo({
-    album: albumId,
-  });
-  photo.save()
-    .then((photo) => {
-      fs.readFile(source, (err, filedata) => {
-        const putParams = {
-          Bucket: process.env.AWS_BUCKET_NAME,
-          Key: photo._id.toString(),
-          Body: filedata,
-        };
-        s3.putObject(putParams, (err, data) => {
-          if (err) {
-            console.log('Could not upload file: ', err);
-            return err;
-          }
-          return photo._id;
+  return new Promise(async (resolve, reject) => {
+    const photo = new Photo({
+      album: albumId,
+    });
+    photo.save()
+      .then((photo) => {
+        fs.readFile(source, (err, filedata) => {
+          if (err) reject(err);
+          const putParams = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: photo._id.toString(),
+            Body: filedata,
+          };
+          s3.putObject(putParams).promise()
+            .then(() => {
+              resolve(photo._id);
+            })
+            .catch((err) => reject(err));
         })
       })
-    })
-    .catch((err) => {
-      console.log(err);
-      return err;
-    })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      })
+  })
 }
 
 const deleteFile = (filename, res) => {

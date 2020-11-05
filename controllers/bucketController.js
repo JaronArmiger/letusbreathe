@@ -18,11 +18,12 @@ exports.list = async (req, res, next) => {
 }
 
 exports.post_file = async (req, res, next) => {
-  bucketUtils.postFile(req.file.path, req.file.filename, req.body.album, res);
-  res.send({ 
-    success: true,
-    result
-  });
+  bucketUtils.postFile(req.file.path, req.file.filename, req.body.album, req)
+    .then(async (photoId) => {
+      res.send({ photoId })
+    }, err => {
+      next(err);
+    });
 }
 
 exports.delete_file = async (req, res, next) => {
