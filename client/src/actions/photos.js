@@ -8,6 +8,7 @@ export const beginAddPhotos = (photos, albumId) => {
       for (const key of Object.keys(photos)) {
         formData.append('photos', photos[key]);
       }
+      formData.append('album', albumId);
       await axios.post('/bucket/upload_mult', formData, {
       	headers: {
       	  'Content-Type': 'multipart/form-data',
