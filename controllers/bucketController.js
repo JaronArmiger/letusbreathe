@@ -9,7 +9,7 @@ exports.get_file = (req, res, next) => {
     })
     .catch((e) => {
       res.send(e);
-    })
+    });
 }
 
 exports.list = async (req, res, next) => {
@@ -24,6 +24,19 @@ exports.post_file = async (req, res, next) => {
     }, err => {
       next(err);
     });
+}
+
+exports.upload_mult = async (req, res, next) => {
+  let uploadFilePromises = [];
+  req.files.forEach((file) => {
+    uploadFilePromises
+      .push(bucketUtils.postFile(file.path, file.filename, req.body.album, res));
+  })
+  Promise.all(uploadFilePromises)
+    .then((photoIds) => {
+      res.send({ success: true, photoIds })
+    })
+    .catch((err) => res.send({ error: err.message }))
 }
 
 exports.delete_file = async (req, res, next) => {

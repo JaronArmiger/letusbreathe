@@ -45,20 +45,10 @@ router.delete('/delete_file/:filename',
   bucketController.delete_file);
 
 
-router.post('/upload_mult', upload.array('photos', 12), 
-  async (req, res, next) => {
-    let uploadFilePromises = [];
-    req.files.forEach((file) => {
-  	  uploadFilePromises
-  	    .push(bucketUtils.postFile(file.path, file.filename, req.body.album, res));
-    })
-    Promise.all(uploadFilePromises)
-      .then((results) => {
-        res.send({ success: true, results })
-      })
-      .catch((e) => res.send(e))
-
-})
+router.post('/upload_mult', 
+  upload.array('photos', 12), 
+  bucketController.upload_mult
+  );
 
 
 module.exports = router;
