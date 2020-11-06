@@ -12,6 +12,32 @@ const CreateEventForm = ({
 }) => {
   let history = useHistory();
 
+  const createPhoto = (photo) => {
+    const formData = new FormData();
+    formData.append('photo', photo);
+    axios.post('/bucket/post_file', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    }).then((response) => response.data.photoId)
+      .catch((err) => {
+        err.response && dispatch(getErrors(err.response.data));
+      })
+  }
+
+  const createEvent = (eventObj) => {
+    axios.post('/events/create', eventObj)
+      .then((response) => {
+        if (errors = response.data.errors) {
+          dispatch(getErrors(errors));
+        } else {
+          const createdEvent = response.data.event;
+          dispatch(loadEvent(createdEvent));
+          history.push('/event');
+        }
+      })
+  }
+
   const handleFormSubmit = async (e) => {
   	e.preventDefault(e);
     const photo = e.target.photo.files[0];
@@ -19,44 +45,35 @@ const CreateEventForm = ({
     const endTimeString = e.target.endDate.value + ' ' + e.target.endTime.value + ':00';
     const title = e.target.title.value;
     const description = e.target.description.value;
-
-    if (photo) {
       try {
-        const formData = new FormData();
-        formData.append('photo', photo);
-        const photoResponse = await axios.post('/bucket/post_file', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-        });
-        const photoId = photoResponse.data.photoId;
-
-        const eventResponse = await axios.post('/events/create', {
-          title,
-          description,
-          start: startTimeString,
-          end: endTimeString,
-          photo: photoId,
-        });
-        if (errors = eventResponse.data.errors) {
-          dispatch(getErrors(errors));
+        if (photo) {
+          const photoId = await createPhoto(photo);
+          createEvent({
+            title,
+            description,
+            start: startTimeString,
+            end: endTimeString,
+            photo: photoId,
+          });
         } else {
-          const createdEvent = eventResponse.data.event;
-          dispatch(loadEvent(createdEvent));
-          history.push('/event');
+          createEvent({
+            title,
+            description,
+            start: startTimeString,
+            end: endTimeString,
+          });
         }
       } catch (err) {
       	err.response && dispatch(getErrors(err.response.data));
       }
     }
 
-  }
-
   return (
     <EventForm 
       update={false}
       errors={errors}
       handleFormSubmit={handleFormSubmit}
+      photoURL={''}
     />
   );
 }

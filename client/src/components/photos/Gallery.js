@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Photo from './Photo';
 import uniqid from 'uniqid';
+import { getPhotoKeys } from '../../actions/photos';
 
 const Gallery = ({ errors, photos, dispatch }) => {
   const [isLoading, setIsLoading] = useState(false);
-  /*
+
   useEffect(() => {
     setIsLoading(true);
     dispatch(getPhotoKeys());
   }, []);
-  */
 
   useEffect(() => {
     if (photos.length > 0) {

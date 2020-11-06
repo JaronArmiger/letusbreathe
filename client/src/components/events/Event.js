@@ -37,9 +37,11 @@ const Event = ({ event, dispatch }) => {
 
     eventInfo = (
         <div>
-          <Photo
-            url={event.photo.toString()}
-          />
+          {(event.photo) && 
+            <Photo
+              url={event.photo.toString()}
+            />
+          }
           {errMsg && <p>{errMsg}</p>}
           <h1>Title: {event.title}</h1>
           <p><b>Start Date: </b>{startDate.toLocaleDateString()}</p>

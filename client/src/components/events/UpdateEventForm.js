@@ -12,14 +12,13 @@ const UpdateEventForm = ({
   let history = useHistory();
   
   const handleFormSubmit = async (e) => {
-  	/*
   	e.preventDefault(e);
     const photo = e.target.photo.files[0];
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
     const endTimeString = e.target.endDate.value + ' ' + e.target.endTime.value + ':00';
     const title = e.target.title.value;
     const description = e.target.description.value;
-    
+    /*
     let photoId;
     if (photo) {
       try {
@@ -31,35 +30,8 @@ const UpdateEventForm = ({
           }
         });
         photoId = response.data.photoId;
-
-        if (update) {
-          if (event) {
-            axios.put(`/events/${event._id}`, {
-              title,
-              description,
-              start: startTimeString,
-              end: endTimeString,
-              photoId,
-            })
-            .then((res) => {
-              if (errors = res.data.errors) {
-                dispatch(getErrors(errors))
-              } else {
-                const updatedEvent = res.data.event;
-                //updatedEvent.start = new Date(updatedEvent.start);
-                //updatedEvent.end = new Date(updatedEvent.end);
-                dispatch(loadEvent(updatedEvent));
-                history.push('/event');
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            })
-          } else {
-            dispatch(getErrors({0: { msg: 'no event loaded' }}));
-          }
-        } else {
-          axios.post('/events/create', {
+        if (event) {
+          axios.put(`/events/${event._id}`, {
             title,
             description,
             start: startTimeString,
@@ -70,22 +42,24 @@ const UpdateEventForm = ({
             if (errors = res.data.errors) {
               dispatch(getErrors(errors))
             } else {
-              const createdEvent = res.data.event;
-              //createdEvent.start = new Date(createdEvent.start);
-              //createdEvent.end = new Date(createdEvent.end);
-              dispatch(loadEvent(createdEvent));
+              const updatedEvent = res.data.event;
+              //updatedEvent.start = new Date(updatedEvent.start);
+              //updatedEvent.end = new Date(updatedEvent.end);
+              dispatch(loadEvent(updatedEvent));
               history.push('/event');
             }
           })
           .catch((err) => {
             console.log(err);
           })
+        } else {
+          dispatch(getErrors({0: { msg: 'no event loaded' }}));
         }
       } catch (err) {
         err.response && dispatch(getErrors(err.response.data));
       }
     }
-   */ 
+    */
   }
 
   return (
