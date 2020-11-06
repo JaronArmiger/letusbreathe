@@ -2,6 +2,7 @@ import React from 'react';
 import EventForm from './EventForm';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const UpdateEventForm = ({ 
   errors,

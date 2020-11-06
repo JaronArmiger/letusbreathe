@@ -13,16 +13,18 @@ const CreateEventForm = ({
   let history = useHistory();
 
   const createPhoto = (photo) => {
-    const formData = new FormData();
-    formData.append('photo', photo);
-    axios.post('/bucket/post_file', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      }
-    }).then((response) => response.data.photoId)
-      .catch((err) => {
-        err.response && dispatch(getErrors(err.response.data));
-      })
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append('photo', photo);
+      axios.post('/bucket/post_file', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        }
+      }).then((response) => resolve(response.data.photoId))
+        .catch((err) => {
+          err.response && reject(err.response.data);
+        })
+    })
   }
 
   const createEvent = (eventObj) => {
@@ -48,6 +50,7 @@ const CreateEventForm = ({
       try {
         if (photo) {
           const photoId = await createPhoto(photo);
+          console.log(photoId);
           createEvent({
             title,
             description,
