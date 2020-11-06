@@ -15,7 +15,6 @@ const UploadForm = ({ errors, dispatch}) => {
   }, [errors]);
 
   useEffect(() => {
-    setErrorMsg('');
     axios.get('/albums/names')
       .then((albums) => {
         setAlbums(albums.data);

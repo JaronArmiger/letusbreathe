@@ -4,7 +4,7 @@ const eventReducer = (state = null, action) => {
   	  const event = action.event;
   	  const startDate = new Date(event.start);
       const endDate = new Date(event.end);
-      const timeDiff = startDate.getTimezoneOffset / 60;
+      //const timeDiff = startDate.getTimezoneOffset / 60;
       startDate.setHours(startDate.getHours() + 5);
       endDate.setHours(endDate.getHours() + 5);
       event.start = startDate;

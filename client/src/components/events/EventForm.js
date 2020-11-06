@@ -15,7 +15,7 @@ const EventForm = ({
   }) => {
   let history = useHistory();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
   	e.preventDefault(e);
     const photo = e.target.photo.files[0];
     const startTimeString = e.target.startDate.value + ' ' + e.target.startTime.value + ':00';
@@ -23,55 +23,71 @@ const EventForm = ({
     const title = e.target.title.value;
     const description = e.target.description.value;
     
-    /*
-    if (update) {
-      if (event) {
-        axios.put(`/events/${event._id}`, {
-          title,
-          description,
-          start: startTimeString,
-          end: endTimeString,
-        })
-        .then((res) => {
-          if (errors = res.data.errors) {
-            dispatch(getErrors(errors))
-          } else {
-            const updatedEvent = res.data.event;
-            //updatedEvent.start = new Date(updatedEvent.start);
-            //updatedEvent.end = new Date(updatedEvent.end);
-            dispatch(loadEvent(updatedEvent));
-            history.push('/event');
+    let photoId;
+    if (photo) {
+      try {
+        const formData = new FormData();
+        formData.append('photo', photo);
+        const response = await axios.post('/bucket/post_file', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-      } else {
-        dispatch(getErrors({0: { msg: 'no event loaded' }}));
-      }
-    } else {
-      axios.post('/events/create', {
-        title,
-        description,
-        start: startTimeString,
-        end: endTimeString,
-      })
-      .then((res) => {
-        if (errors = res.data.errors) {
-          dispatch(getErrors(errors))
+        });
+        photoId = response.data.photoId;
+
+        if (update) {
+          if (event) {
+            axios.put(`/events/${event._id}`, {
+              title,
+              description,
+              start: startTimeString,
+              end: endTimeString,
+              photoId,
+            })
+            .then((res) => {
+              if (errors = res.data.errors) {
+                dispatch(getErrors(errors))
+              } else {
+                const updatedEvent = res.data.event;
+                //updatedEvent.start = new Date(updatedEvent.start);
+                //updatedEvent.end = new Date(updatedEvent.end);
+                dispatch(loadEvent(updatedEvent));
+                history.push('/event');
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+          } else {
+            dispatch(getErrors({0: { msg: 'no event loaded' }}));
+          }
         } else {
-          const createdEvent = res.data.event;
-          //createdEvent.start = new Date(createdEvent.start);
-          //createdEvent.end = new Date(createdEvent.end);
-          dispatch(loadEvent(createdEvent));
-          history.push('/event');
+          axios.post('/events/create', {
+            title,
+            description,
+            start: startTimeString,
+            end: endTimeString,
+            photoId,
+          })
+          .then((res) => {
+            if (errors = res.data.errors) {
+              dispatch(getErrors(errors))
+            } else {
+              const createdEvent = res.data.event;
+              //createdEvent.start = new Date(createdEvent.start);
+              //createdEvent.end = new Date(createdEvent.end);
+              dispatch(loadEvent(createdEvent));
+              history.push('/event');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      } catch (err) {
+        err.response && dispatch(getErrors(err.response.data));
+      }
     }
-    */
   }
 
   return (
@@ -141,7 +157,7 @@ const EventForm = ({
             name="photo"
             accept="image/jpeg image/jpg"
             />
-        </Form.Group>
+      </Form.Group>
       <Button
         type='submit'
       >

@@ -3,7 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import { loadEvent } from '../../actions/event';
+//import { loadEvent } from '../../actions/event';
 
 const Event = ({ event, dispatch }) => {
   let history = useHistory();
