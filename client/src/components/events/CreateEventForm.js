@@ -36,7 +36,7 @@ const CreateEventForm = ({
           description,
           start: startTimeString,
           end: endTimeString,
-          photoId,
+          photo: photoId,
         });
         if (errors = eventResponse.data.errors) {
           dispatch(getErrors(errors));

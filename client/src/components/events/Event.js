@@ -3,6 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import Photo from '../photos/Photo';
 //import { loadEvent } from '../../actions/event';
 
 const Event = ({ event, dispatch }) => {
@@ -36,6 +37,9 @@ const Event = ({ event, dispatch }) => {
 
     eventInfo = (
         <div>
+          <Photo
+            url={event.photo.toString()}
+          />
           {errMsg && <p>{errMsg}</p>}
           <h1>Title: {event.title}</h1>
           <p><b>Start Date: </b>{startDate.toLocaleDateString()}</p>

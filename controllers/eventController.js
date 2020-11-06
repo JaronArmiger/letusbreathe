@@ -43,7 +43,7 @@ exports.event_create = [
       start: req.body.start,
       end: req.body.end,
       description: req.body.description,
-      photo: req.body.photoId,
+      photo: req.body.photo,
     });
     try {
       await event.save();

@@ -19,7 +19,8 @@ const EventSchema = new Schema({
   description: {
   	type: String,
   	require: true,
-  }
+  },
+  photo: {type: Schema.Types.ObjectId, ref: 'Photo'},
 });
 
 module.exports = mongoose.model('Event', EventSchema);

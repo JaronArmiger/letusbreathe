@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
-import { getErrors } from '../../actions/errors';
-import { loadEvent } from '../../actions/event';
-import { useHistory } from 'react-router-dom';
-import DateTimePicker from 'react-datetime-picker';
+import Photo from '../photos/Photo';
+//import axios from 'axios';
+//import { getErrors } from '../../actions/errors';
+//import { loadEvent } from '../../actions/event';
+//import { useHistory } from 'react-router-dom';
 
 const EventForm = ({ 
     errors, 
@@ -13,6 +13,7 @@ const EventForm = ({
     update=false,
     event,
     handleFormSubmit,
+    photoURL,
   }) => {
 
   return (
@@ -76,12 +77,20 @@ const EventForm = ({
         />
       </Form.Group>
       <Form.Group>
-          <Form.Label>Add photo</Form.Label>
+          <Form.Label>
+            {update ? 'Change photo' : 'Add photo'}
+          </Form.Label>
           <Form.Control 
             type="file" 
             name="photo"
             accept="image/jpeg image/jpg"
             />
+          {(photoURL.length != 0) && 
+            <div>
+              <h4>Current Photo</h4>
+              <Photo url={photoURL}/>    
+            </div>
+          }
       </Form.Group>
       <Button
         type='submit'

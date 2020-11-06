@@ -94,6 +94,7 @@ const UpdateEventForm = ({
       event={event}
       errors={errors}
       handleFormSubmit={handleFormSubmit}
+      photoURL={event ? event.photo.toString() : ''}
     />
   );
 
