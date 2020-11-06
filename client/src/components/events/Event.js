@@ -8,6 +8,7 @@ import Photo from '../photos/Photo';
 
 const Event = ({ event, dispatch }) => {
   let history = useHistory();
+  console.log(event);
   
   const [errMsg, setErrMsg] = useState(null);
 

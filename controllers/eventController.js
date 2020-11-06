@@ -52,7 +52,7 @@ exports.event_create = [
       });
     } catch(err) {
       res.status(500).send({
-      	post_error: err.message,
+      	error: err.message,
       });
     }
   }
@@ -99,6 +99,7 @@ exports.event_update = [
       end: req.body.end,
       description: req.body.description,
       _id: req.params.id,
+      photo: req.body.photo,
     })
 
     Event.findByIdAndUpdate(req.params.id, event, {})

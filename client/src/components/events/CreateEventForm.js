@@ -69,7 +69,7 @@ const CreateEventForm = ({
       } catch (err) {
       	err.response && dispatch(getErrors(err.response.data));
       }
-    }
+  }
 
   return (
     <EventForm 
